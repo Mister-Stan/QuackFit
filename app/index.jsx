@@ -21,7 +21,7 @@ export default function App() {
           <Animated.Image
             source={images.logo}
             entering={FadeInUp.duration(1000).delay(500)}
-            className="w-[430px] h-[304px] brightness-125 mt-5"
+            className="w-[430px] h-[304px] brightness-125 mt-5 rounded-full"
             resizeMode="contain"
           />
           
