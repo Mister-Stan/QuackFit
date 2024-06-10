@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  appwrite:
+    image: appwrite/appwrite:latest
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      _APP_ENV: dev
+      _APP_OPENSSL_KEY_V1: your-secret-key
+      _APP_DOMAIN: localhost
+      _APP_REDIS_HOST: redis
+      _APP_DB_HOST: mariadb
+      _APP_DB_PORT: 3306
+      _APP_DB_USER: appwrite      # Added environment variable
+      _APP_DB_PASS: password      # Added environment variable
+      _APP_DB_SCHEMA: appwrite    # Added environment variable
+      _APP_INFLUXDB_HOST: influxdb
+    depends_on:
+      - redis
+      - mariadb
+      - influxdb
+    volumes:
+      - ./appwrite:/usr/src/code/appwrite:rw
+
+  redis:
+    image: redis:alpine
+
+  mariadb:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: appwrite
+      MYSQL_USER: appwrite
+      MYSQL_PASSWORD: password
+
+  influxdb:
+    image: influxdb:1.8
+    environment:
+      INFLUXDB_DB: appwrite
+      INFLUXDB_ADMIN_USER: root
+      INFLUXDB_ADMIN_PASSWORD: password
